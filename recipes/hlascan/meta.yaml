@@ -1,0 +1,37 @@
+{% set version = "2.1.4" %}
+{% set sha256 = "a848b847c766ce0a9d91081626700f614ca0429173d862f533038ab7deac61b3" %}
+
+package:
+  name: hlascan
+  version: {{ version }}
+
+source:
+  url: https://github.com/SyntekabioTools/HLAscan/releases/download/v{{ version }}/hla_scan_r_v{{ version }}  
+  sha256: {{ sha256 }}
+  fn: hla_scan
+
+# requirements:
+#   run:
+#     - awk
+
+build:
+  number: 0
+  missing_dso_whitelist:
+    - /lib64/libz.so.1
+    - /lib64/libstdc++.so.6
+    - /lib64/libm.so.6
+    - /lib64/libgcc_s.so.1
+    - /lib64/libpthread.so.0
+    - /lib64/libc.so.6
+
+test:
+  commands:
+    - hla_scan | head -n 1 | awk -F' |_' '{print $3}' -
+
+about:
+  home: https://github.com/SyntekabioTools/HLAscan
+  license: NONE
+  license_file:
+    - LICENSE
+  summary: "HLAscan is an alignment-based program that determines haplotypes taking read distribution into account. The software performs alignment of reads to HLA sequences from the international ImMunoGeneTics project/human leukocyte antigen (IMGT/HLA) database."
+  doc_url: https://github.com/SyntekabioTools/HLAscan/blob/master/HLAscan.v2.0.Manual.pdf
